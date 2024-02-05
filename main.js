@@ -1,58 +1,91 @@
 const DOMSelectors = {
-   input: document.querySelector("#input"),
-   form: document.querySelector('#form'),
-   question: document.querySelector('#question'),
-   true: document.querySelector('#true'),
-   false: document.querySelector('#false')
-}
-async function main() {
-const api = 'https://opentdb.com/api.php?amount=50&type=boolean'
-const response = await fetch(api)
-const data = await response.json()
-const score = 0
-const used = []
-const qa = data.results.map(question => 
-    ({
-    question: question.question, 
-    correct: question.correct_answer, 
-    incorrect: question.incorrect_answers 
-    })
-    )
+    input: document.querySelector("#input"),
+    form: document.querySelector('#form'),
+    question: document.querySelector('#question'),
+    true: document.querySelector('#true'),
+    false: document.querySelector('#false')
+ }
+ async function main() {
+ const api = 'https://opentdb.com/api.php?amount=50&type=boolean'
+ const response = await fetch(api)
+ const data = await response.json()
+ 
+ 
+ const qa = data.results.map(question => 
+     ({
+     question: question.question, 
+     correct: question.correct_answer, 
+     incorrect: question.incorrect_answers 
+     })
+     )
+     stuff(qa)
+ }
+ 
+ function stuff(qa) {
+     let i = 0
+     let click = 'no'
+     const used = []
+     
+     DOMSelectors.form.addEventListener('submit', function(event) {
+         event.preventDefault()
+         const input = DOMSelectors.input.value;
+         displayQuestion(input)
+     });
+ 
+     function displayQuestion(input) {
+         if (i < input) {
+             let q = qa[i]
+             console.log(q)
+             clear()
+             DOMSelectors.question.insertAdjacentHTML("beforeend", `<h1>${q.question}</h1>`)
+             click = 'no'
+         }
+         
+     }
+ DOMSelectors.true.addEventListener('click', function(event) {
+         event.preventDefault()
+             let answer = "True"
+             checkAnswer(answer)
+             displayQuestion(DOMSelectors.input.value)
+             console.log(DOMSelectors.input.value)
+     });
+ 
+     DOMSelectors.false.addEventListener('click', function(event) {
+         event.preventDefault()
+             let answer = "False"
+             checkAnswer(answer)
+             displayQuestion(DOMSelectors.input.value)
+             console.log(DOMSelectors.input.value)
+         }
+     );
+ 
+     function checkAnswer(answer) {
+         let q = qa[i]
+         if (q.correct.includes(answer)) {
+            used.push("Correct")
+         }
+         else {
+            used.push("Incorrect")
+         }
+         i++
+         if (i === Number(DOMSelectors.input.value)){final()}
+     }
+     function final(){
+        let a = 0
+        let b = 0
+        for (let i = 0; i < used.length; i++){
+         if (used[i].includes("Correct")) {a++}
+         if (used[i].includes("Incorrect")) {b++}}
+         clear()
+         const correct = a * 100/DOMSelectors.input.value
+         const incorrect = b * 100/DOMSelectors.input.value
+         DOMSelectors.question.insertAdjacentHTML("beforeend", `<h1>You got ${correct}% of them right and ${incorrect}% of them wrong!</h1>`)
+        }
+ }
+ 
 
-    DOMSelectors.form.addEventListener('submit', function(event) {
-    event.preventDefault();
-    const input = DOMSelectors.input.value
-    console.log(input)
-    
-    for (let i = 0; i < input;){
-        let q = qa[i]
-        console.log(q)
-        let click = 'no'
-        clear()
-        DOMSelectors.question.insertAdjacentHTML("beforeend", `<h1>${q.question}</h1>`)
-        if (click==="no") {
-        DOMSelectors.true.addEventListener('click', function(event) {
-            event.preventDefault();
-            let answer = "True"
-            if (q.correct.includes(answer)){
-                console.log("BUSSSSSSSSSSSS")}
-            score++
-            i++
-            click = 'yes'
-        })
-        DOMSelectors.false.addEventListener('click', function(event) {
-            event.preventDefault();
-            let answer = "False"
-            if (q.correct.includes(answer)){
-                console.log("BUSSSSSSSSSSSS")}
-            score++
-            i++
-            click = 'yes'
-       })}
-        }})
-}
-function clear() {
-    DOMSelectors.question.innerHTML = ''
-}
-
-main()
+ function clear() {
+     DOMSelectors.question.innerHTML = ''
+ }
+ 
+ main()
