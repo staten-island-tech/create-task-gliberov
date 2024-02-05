@@ -66,14 +66,14 @@ const DOMSelectors = {
             used.push("Incorrect")
          }
          i++
-         if (i === Number(DOMSelectors.input.value)){final()}
+         if (i === Number(DOMSelectors.input.value)){final(used)}
      }
-     function final(){
+     function final(array){
         let a = 0
         let b = 0
-        for (let i = 0; i < used.length; i++){
-         if (used[i].includes("Correct")) {a++}
-         if (used[i].includes("Incorrect")) {b++}}
+        for (let i = 0; i < array.length; i++){
+         if (array[i].includes("Correct")) {a++}
+         if (array[i].includes("Incorrect")) {b++}}
          clear()
          const correct = a * 100/DOMSelectors.input.value
          const incorrect = b * 100/DOMSelectors.input.value
