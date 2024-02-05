@@ -18,12 +18,11 @@ const DOMSelectors = {
      incorrect: question.incorrect_answers 
      })
      )
-     stuff(qa)
+     game(qa)
  }
  
- function stuff(qa) {
+ function game(qa) {
      let i = 0
-     let click = 'no'
      const used = []
      
      DOMSelectors.form.addEventListener('submit', function(event) {
@@ -38,7 +37,6 @@ const DOMSelectors = {
              console.log(q)
              clear()
              DOMSelectors.question.insertAdjacentHTML("beforeend", `<h1>${q.question}</h1>`)
-             click = 'no'
          }
          
      }
